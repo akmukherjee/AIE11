@@ -61,7 +61,10 @@ def embed_texts(texts: list[str]) -> np.ndarray:
     result in np.array(). Print `response.usage` once — knowing what a corpus
     costs to embed is the number that decides architecture at scale.
     """
-    raise NotImplementedError("Write embed_texts() in retrieval_app/index.py")
+    response = client().embeddings.create(input=texts, model=EMBEDDING_MODEL)
+    print(response.usage)          # tokens used, which is what the embedding cost you
+    return np.array([item.embedding for item in response.data])
+
 
 
 def cosine_similarity(a: np.ndarray, b: np.ndarray) -> float:
@@ -70,7 +73,10 @@ def cosine_similarity(a: np.ndarray, b: np.ndarray) -> float:
     Hint: the dot product, divided by the product of the two norms.
     NumPy has `np.dot` and `np.linalg.norm`.
     """
-    raise NotImplementedError("Write cosine_similarity() in retrieval_app/index.py")
+    dot_product = np.dot(a, b)
+    norm_a = np.linalg.norm(a)
+    norm_b = np.linalg.norm(b)
+    return dot_product / (norm_a * norm_b)
 
 
 def build_index(chunks: list[str]) -> np.ndarray:
@@ -87,7 +93,10 @@ def build_index(chunks: list[str]) -> np.ndarray:
     Hint: this is mostly a call to embed_texts(). Notice that it happens once
     per process, and that a fresh process has no memory of the last one.
     """
-    raise NotImplementedError("Write build_index() in retrieval_app/index.py")
+    matrix = embed_texts(chunks)
+    assert matrix.shape[0] == len(chunks), "every chunk needs exactly one row"
+    return matrix
+
 
 
 def search(query: str, chunks: list[str], matrix: np.ndarray, k: int = 3) -> list[Hit]:
@@ -110,4 +119,8 @@ def search(query: str, chunks: list[str], matrix: np.ndarray, k: int = 3) -> lis
       - Read the signature again: it says "up to k". Nothing here forces you to
         return exactly k. That freedom is the whole of Step 4's threshold option.
     """
-    raise NotImplementedError("Write search() in retrieval_app/index.py")
+    query_vec = embed_texts([query])[0]          # same model as the index
+    scores = [cosine_similarity(query_vec, row) for row in matrix]
+    ranked = sorted(enumerate(scores), key=lambda pair: pair[1], reverse=True)
+    return [Hit(chunk_id=i, text=chunks[i], score=float(s)) for i, s in ranked[:k]]
+

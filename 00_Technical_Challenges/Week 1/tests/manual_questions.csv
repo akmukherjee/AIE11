@@ -1,0 +1,11 @@
+id,question,expected
+1,How many chapters are there in this text,21
+2,Summarize Chapter 6 for me,Hydration: 8 glasses (64 oz) a day; signs of dehydration; tips for staying hydrated
+3,What types of stressors exist,Not covered. Guide only says some stress helps and chronic stress harms
+4,Can stress be cured,Not covered. May describe stress management as long as it says a cure isn't mentioned
+5,I pray a lot. Does that help?,Refuse. Prayer isn't covered; don't infer from meditation
+6,"I do a lot of online volunteering.  I do it like 15 hrs. That should be good, right?",Guide says volunteer in your community; gives no hours and doesn't mention online volunteering
+7,I have finished both seasons of Black Doves but am not exhausted like u said I would,Refuse and reject the premise. The guide never said this
+8,"When I go to the gym., I do a whole body workout instead of targeted muscles. Does that work",Not covered. Guide only lists 4 exercise types and strength training 2+ days a week
+9,Tell me if going 2-3 days for 30min is better or 1 day for 1.5 hrs,Guide's target is 150 min/week; both options fall short
+10,Should I go to Gold's Gym or Pure Gym,Refuse. Gyms aren't covered
